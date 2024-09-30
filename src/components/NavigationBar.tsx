@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 interface NavigationBarProps {
   openSignUpModal: () => void;
-  openLoginModa: () => void;
+  openLoginModal: () => void;
 }
 
 const NavigationBar: React.FC<NavigationBarProps> = ({

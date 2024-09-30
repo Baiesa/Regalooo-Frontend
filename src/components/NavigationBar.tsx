@@ -19,7 +19,6 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
   ); // Access auth state from Redux
-  // Get the shopping cart from the store
   const { shoppingCart, totalPrice } = useSelector(
     (state: RootState) => state.shoppingCart
   );
@@ -34,7 +33,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
     <nav className="w-full h-16 bg-[#4ca330] flex items-center justify-between px-8 relative">
       {/* Logo */}
       <div
-        className=" text-white text-3xl font-bold tracking-[6px] font-['Comfortaa'] cursor-pointer"
+        className="text-white text-3xl font-bold tracking-[6px] font-['Comfortaa'] cursor-pointer"
         onClick={() => navigate("/")}
       >
         REGALOOO
@@ -46,19 +45,19 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
           className="text-[#f1faeb] text-base font-bold font-['Quicksand'] cursor-pointer"
           onClick={() => navigate("/")}
         >
-          Categories
+          Explore Categories
         </div>
         <div
           className="text-[#f1faeb] text-base font-bold font-['Quicksand'] cursor-pointer"
           onClick={() => navigate("/")}
         >
-          What is Regalooo
+          About Regalooo
         </div>
         <div
           className="text-[#f1faeb] text-base font-bold font-['Quicksand'] cursor-pointer"
           onClick={() => navigate("/")}
         >
-          Help
+          Customer Support
         </div>
       </div>
 
@@ -66,7 +65,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
       <div className="relative w-[300px] h-[45px] flex items-center">
         <input
           type="text"
-          placeholder="Search Gifts"
+          placeholder="Search for Gifts"
           className="w-full h-full pl-4 pr-12 rounded-full bg-white text-base font-bold font-['Quicksand'] text-[#576653] outline-none"
         />
         <button className="absolute right-2 top-2 w-[35px] h-[35px] bg-[#316a21] rounded-full flex items-center justify-center">
@@ -85,7 +84,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
               onClick={handleLogout}
               className="text-[#f1faeb] text-sm font-bold font-['Quicksand']"
             >
-              Logout
+              Sign Out
             </Button>
           </>
         ) : (
@@ -93,7 +92,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
             onClick={openLoginModal}
             className="text-[#f1faeb] text-sm font-bold font-['Quicksand']"
           >
-            Sign In
+            Log In
           </Button>
         )}
       </div>
@@ -114,57 +113,55 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
 
         {/* Cart Dropdown */}
         {isDropdownOpen && (
-  <div className="absolute right-0 mt-2 w-[350px] bg-[#F5FAF4] shadow-lg rounded-lg p-6 z-50 border border-gray-200">
-    <h4 className="font-semibold text-lg mb-2">Shopping Cart ({shoppingCart.length} item{shoppingCart.length > 1 ? 's' : ''})</h4>
-    <hr className="border-t border-gray-400 mb-4" />
+          <div className="absolute right-0 mt-2 w-[350px] bg-[#F5FAF4] shadow-lg rounded-lg p-6 z-50 border border-gray-200">
+            <h4 className="font-semibold text-lg mb-2">Shopping Cart ({shoppingCart.length} item{shoppingCart.length > 1 ? 's' : ''})</h4>
+            <hr className="border-t border-gray-400 mb-4" />
 
-    {shoppingCart.length > 0 ? (
-      <div>
-        {shoppingCart.slice(0, 2).map((item) => (
-          <div key={item.id} className="flex items-center justify-between mb-4">
-            <div className="flex items-center">
-              <img
-                src={item.image || "https://via.placeholder.com/50"}
-                alt={item.name}
-                className="w-16 h-16 object-cover rounded mr-4"
-              />
+            {shoppingCart.length > 0 ? (
               <div>
-                <div className="text-black text-sm font-bold">{item.name}</div>
-                <div className="text-black text-sm">Qty: {item.quantity}</div>
-                <div className="text-black text-sm font-semibold">
-                  Total Price: ${(item.price * item.quantity).toFixed(2)}
+                {shoppingCart.slice(0, 2).map((item) => (
+                  <div key={item.id} className="flex items-center justify-between mb-4">
+                    <div className="flex items-center">
+                      <img
+                        src={item.image || "https://via.placeholder.com/50"}
+                        alt={item.name}
+                        className="w-16 h-16 object-cover rounded mr-4"
+                      />
+                      <div>
+                        <div className="text-black text-sm font-bold">{item.name}</div>
+                        <div className="text-black text-sm">Qty: {item.quantity}</div>
+                        <div className="text-black text-sm font-semibold">
+                          Total Price: ${(item.price * item.quantity).toFixed(2)}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-black text-sm font-medium">
+                      ${item.price.toFixed(2)}
+                    </div>
+                  </div>
+                ))}
+                {shoppingCart.length > 2 && (
+                  <div className="text-right text-black text-sm font-semibold mb-2">
+                    + {shoppingCart.length - 2} more items
+                  </div>
+                )}
+
+                <div className="flex justify-between w-full mt-2 border-t border-gray-300 pt-2">
+                  <span className="font-medium">Subtotal:</span>
+                  <span>${totalPrice.toFixed(2)}</span>
+                </div>
+                <div
+                  className="w-full h-12 bg-green-500 text-white rounded-lg flex items-center justify-center cursor-pointer hover:bg-green-600 mt-4"
+                  onClick={() => navigate("/cart")}
+                >
+                  <div className="text-white text-lg font-bold">Proceed to Cart</div>
                 </div>
               </div>
-            </div>
-            <div className="text-black text-sm font-medium">
-              ${item.price.toFixed(2)}
-            </div>
-          </div>
-        ))}
-        {shoppingCart.length > 2 && (
-          <div className="text-right text-black text-sm font-semibold mb-2">
-            + {shoppingCart.length - 2} more items
+            ) : (
+              <p>Your cart is empty.</p>
+            )}
           </div>
         )}
-
-        <div className="flex justify-between w-full mt-2 border-t border-gray-300 pt-2">
-          <span className="font-medium">Subtotal:</span>
-          <span>${totalPrice.toFixed(2)}</span>
-        </div>
-        <div
-          className="w-full h-12 bg-green-500 text-white rounded-lg flex items-center justify-center cursor-pointer hover:bg-green-600 mt-4"
-          onClick={() => navigate("/cart")}
-        >
-          <div className="text-white text-lg font-bold">Go To Cart</div>
-        </div>
-      </div>
-    ) : (
-      <p>Your cart is empty.</p>
-    )}
-  </div>
-)}
-
-        
       </div>
     </nav>
   );
